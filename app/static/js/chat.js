@@ -1,52 +1,35 @@
-const socket = io('http://localhost:8080'); // Endereço do servidor Socket.IO
+const socket = io();
 
-// Seleciona o botão pelo ID
-const button = document.getElementById('sendButton');
-
-socket.on('connect', () => {
-   console.log('Conexão estabelecida com o servidor Socket.IO');
-});
-
-// recebimentos das mensagens
+// Escuta o evento 'message' do servidor
 socket.on('message', (data) => {
-    displayMessage(data.content, data.username);
-});
+    console.log('Nova mensagem recebida:', data); // Log para depuração
 
-// recebimento de uma nova lista de usuários conectados
-socket.on('update_users_event', (data) => {
-    updateUserList(data.users)
-});
-
-// envio de solicitação para o servidor para que o mesmo possa devolver
-// a lista de mensagens atualizada
-function sendMessage() {
-    const messageInput = document.getElementById('messageInput');
-    const message = messageInput.value;
-    socket.emit('message', message);
-    messageInput.value = '';
-}
-
-function displayMessage(message, user) {
+    // Encontra o elemento onde as mensagens serão exibidas
     const messageDisplay = document.getElementById('messageDisplay');
+
     if (messageDisplay) {
-        messageDisplay.innerHTML += `<li>${message} | escrita por: ${user}</li>`;
-    } else {
-        console.error('Elemento messageDisplay não encontrado');
-    }
-}
+        // Cria um novo elemento <li> para a mensagem
+        const newMessage = document.createElement('li');
+        newMessage.textContent = `${data.content} | escrita por: ${data.username}`;
 
-function updateUserList(users) {
-    const usersDisplay = document.getElementById('usersDisplay');
-    if (usersDisplay) {
-        usersDisplay.innerHTML = '';
-        users.forEach(user => {
-            const listItem = document.createElement('li');
-            listItem.textContent = user.username;
-            usersDisplay.appendChild(listItem);
-        });
-    } else {
-        console.error('Elemento usersDisplay não encontrado');
-    }
-}
+        // Adiciona a nova mensagem ao final da lista
+        messageDisplay.appendChild(newMessage);
 
-button.addEventListener('click', sendMessage);
+        // Rola a página para exibir a nova mensagem
+        messageDisplay.scrollTop = messageDisplay.scrollHeight;
+    } else {
+        console.error('Elemento messageDisplay não encontrado!');
+    }
+});
+
+// Envia uma nova mensagem
+document.getElementById('sendButton').addEventListener('click', () => {
+    const messageInput = document.getElementById('messageInput');
+    const message = messageInput.value.trim();
+
+    if (message) {
+        console.log('Enviando mensagem:', message); // Log para depuração
+        socket.emit('message', message); // Envia a mensagem para o servidor
+        messageInput.value = ''; // Limpa o campo de entrada
+    }
+});

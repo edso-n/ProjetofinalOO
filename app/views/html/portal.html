@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>>Portal (Login)</title>
+    <link rel="stylesheet" type="text/css" href="/static/css/portal.css">
+    <script src="/static/js/portal.js"></script>
+</head>
+<body>
+    <div class= "object_centered">
+      <h1>Seja bem-vindo ao <strong>Minha estante</strong>!</h1>
+      <h4>O que não é tradição é plágio, leia os clássicos!</h4>
+      <h1>Realize seu <strong>Login</strong></h1>
+    </div>
+    % if username:
+      <div class= "object_centered">
+        % if edited:
+            <h4>Usuário logado: {{ username }} (editado) </h4>
+        % else:
+            <h4>Usuário logado: {{ username }} </h4>
+        % end
+          <form action="/logout" method="post">
+              <button type="submit">Logout</button>
+          </form>
+          <form action="/edit" method="get">
+              <button type="submit">Área de usuário</button>
+          </form>
+          <form action="/chat" method="get">
+              <button type="submit">Área de mensagens</button>
+          </form>
+      </div>
+    % else:
+        % if removed is not None:
+            <h4>O usuário {{ removed }} foi removido deste cadastro.</h4>
+        % elif created is not None:
+            <h4>O usuário {{ created }} foi criado neste cadastro.</h4>
+        % end
+        <div class= "object_centered">
+          <form action="/portal" method="post">
+              <label for="username">Nome:</label>
+              <input id="username" name="username" type="text" required placeholder="Digite seu nome..."/><br>
+              <label for="password">Senha:</label>
+              <input id="password" name="password" type="password" required placeholder="Digite sua senha..." /><br>
+              </br>
+              <input id="setUsers" value="Login" type="submit" class="botaologin" />
+          </form>
+          <form action="/create" method="get">
+              Ainda não possui conta? <a href="/create">Cadastre-se</a>
+          </form>
+        </div>
+    % end
+</body>
+</html>

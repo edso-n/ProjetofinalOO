@@ -1,4 +1,175 @@
-.button-container {
-    display: flex; /* Define o contêiner como flexível */
-    gap: 10px; /* Espaçamento entre os botões */
+/* Estilos gerais (mantidos) */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f8f9fa;
+    margin: 0;
+    padding: 0;
+}
+
+h1, h2, h3 {
+    text-align: center;
+    justify-content: center;
+    color: #333;
+}
+
+.header {
+    display: flex;
+    justify-content: space-around;
+    background-color: #007bff;
+    padding: 10px;
+    margin-bottom: 20px;
+}
+
+.header button {
+    background-color: #ffffff;
+    color: #007bff;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+.header button:hover {
+    background-color: #0056b3;
+    color: #ffffff;
+}
+
+/* Estilos para a seção de livros (ajustados) */
+.livros-container {
+    padding: 20px;
+    text-align: center;
+}
+
+.livros-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+    padding: 20px;
+}
+
+.livro {
+    background-color: #ffffff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 15px; /* Corrigido o valor faltando */
+    text-align: center;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.livro img {
+    width: 50%;
+    height: auto;
+    border-radius: 8px;
+    margin-bottom: 15px;
+}
+
+.livro h3 {
+    margin: 10px 0;
+    font-size: 18px;
+    flex-grow: 1; /* Garante que o título ocupe o espaço disponível */
+}
+
+.livro-button {
+    background-color: #ffffff;
+    color: #007bff;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    border-radius: 5px;
+    font-size: 16px;
+    margin-top: auto; /* Empurra o botão para a base do card */
+}
+
+.livro-button:hover {
+    background-color: #0056b3;
+    color: #ffffff;
+}
+
+/* Estilos para os botões de status */
+.status-btn {
+    width: 100%;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-top: 10px;
+    font-size: 16px;
+}
+
+.status-btn.lido {
+    background-color: #28a745 !important;
+    color: white !important;
+}
+
+.status-btn.nao-lido {
+    background-color: #dc3545 !important;
+    color: white !important;
+}
+
+/* Estilos para o conteúdo centralizado */
+.object_centered {
+    justify-content: center;
+    text-align: center;
+    background: #fff;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    margin-bottom: 20px;
+    width: 100%;
+    max-width: 800px;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.justify-text {
+    text-align: left;
+}
+
+strong {
+    color: #007bff;
+}
+
+/* Estilos para a seção de informações */
+.info-section {
+    display: grid;
+    gap: 2rem;
+    margin-top: 3rem;
+    padding: 2rem;
+    background: #f8f9fa;
+    border-radius: 10px;
+}
+
+.info-box {
+    background: white;
+    padding: 1.5rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.info-content p {
+    margin: 0.8rem 0;
+    line-height: 1.6;
+}
+
+.reservada-container {
+    text-align: center;
+    padding: 4rem;
+}
+
+.portal-button {
+    padding: 1rem 2rem;
+    font-size: 1.2rem;
+}
+
+/* Garanta que não há transições conflitantes */
+.status-btn {
+    transition: background-color 0.3s ease, color 0.3s ease;
 }

@@ -32,7 +32,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
 // WebSocket:
 
-const socket = io('http://localhost:8080');
+const socket = io('http://localhost:8086');
 
 document.addEventListener('DOMContentLoaded', () => {
     const loginForm = document.querySelector('form');

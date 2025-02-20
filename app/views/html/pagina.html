@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Paginas Lidas</title>
+    <link rel="stylesheet" type="text/css" href="/static/css/pagina.css">
+    <script src="/static/js/pagina.js" defer></script>
+    <script src="/static/js/websocket/socket.io.min.js"></script>
+</head>
+<body>
+    % if transfered:
+        <h1>Seja Bem vindo <strong>{{current_user.username}}</strong>!</h1>
+        <div>
+            <div class="header">
+                <form action="/logout" method="post">
+                    <button type="submit">Logout</button>
+                </form>
+                <form action="/edit" method="get">
+                    <button type="submit">Editar usuário</button>
+                </form>
+                <form action="/chat" method="get">
+                    <button type="submit">Área de mensagens</button>
+                </form>
+                <form action="/portal" method="get">
+                    <button type="submit">Portal</button>
+                </form>
+                <form action="/admin" method="get">
+                    <button type="submit">Administração</button>
+                </form>
+            </div>
+
+            <!-- Seção de Livros Disponíveis -->
+            <div class="livros-container">
+                <h2>Livros Clássicos</h2>
+                <div class="livros-grid">
+                    % for livro in livros:
+                    <div class="livro">
+                        <img src="{{ livro.capa }}" alt="{{ livro.titulo }}">
+                        <h3>{{ livro.titulo }}</h3>
+                        <button class="status-btn {{ 'lido' if livro.titulo in current_user.livros_lidos else 'nao-lido' }}" 
+                                data-titulo="{{ livro.titulo }}">
+                            {{ 'Lido ✓' if livro.titulo in current_user.livros_lidos else 'Não Lido' }}
+                        </button>
+                    </div>
+                    % end
+                </div>
+                
+                <!-- Seção de Informações -->
+                <div class="info-section">
+                    <div class="info-box">
+                        <h2><strong>Por que ler mais?</strong></h2>
+                        <div class="info-content">
+                           <p> Ler mais traz inúmeros benefícios para a mente, o conhecimento e até mesmo o bem-estar emocional. Aqui estão algumas razões para tornar a leitura um hábito diário:</p>
+
+                           <p>Expande o conhecimento – Livros, artigos e outras formas de leitura nos expõem a novas ideias, culturas e perspectivas, aumentando nossa compreensão do mundo.</p> 
+
+                            <p> Melhora a comunicação – A leitura amplia o vocabulário e aprimora a escrita, tornando mais fácil expressar pensamentos e argumentos com clareza.</p> 
+
+                            <p> Estimula o cérebro – Assim como exercícios físicos fortalecem o corpo, a leitura fortalece a mente, melhorando a memória, a concentração e o raciocínio lógico.</p> 
+
+                            <p> Reduz o estresse – Um bom livro pode ser uma excelente forma de relaxamento, ajudando a esquecer preocupações e aliviar a tensão do dia a dia.</p> 
+
+                            <p>Desenvolve o pensamento crítico – A leitura nos ensina a questionar, analisar e interpretar informações, tornando-nos mais reflexivos e menos influenciáveis por fake news ou manipulações.</p> 
+
+                            <p>Aumenta a criatividade – Histórias inspiram novas ideias, estimulam a imaginação e incentivam a inovação em diferentes áreas da vida.</p>
+
+                            <p>Melhora o desempenho acadêmico e profissional – Quanto mais lemos, maior nossa capacidade de aprendizado e compreensão de conteúdos complexos, o que reflete positivamente nos estudos e na carreira.</p> 
+
+                           <p>Ajuda a dormir melhor – Ler antes de dormir, em vez de usar telas, prepara o cérebro para um descanso mais profundo e tranquilo.</p> 
+                        </div>
+                    </div>
+                    
+                    <div class="info-box">
+                        <h2><strong>Como ler mais?</strong></h2>
+                        <div class="info-content">
+                            <p>1. Estabeleça uma meta realista</p>
+                            <p>2. Tenha sempre um livro por perto</p>
+                            <!-- Restante do conteúdo -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    % else:
+        <div class="reservada-container">
+            <h1>Página reservada!</h1>
+            <h3>Realize seu LOGIN em nosso portal</h3>
+            <form action="/portal" method="get">
+                <button type="submit" class="portal-button">Portal</button>
+            </form>
+        </div>
+    % end
+</body>
+</html>

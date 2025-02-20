@@ -1,7 +1,6 @@
-from app.controllers.datarecord import UserRecord, MessageRecord
+from app.controllers.datarecord import UserRecord, MessageRecord, BookRecord, LivroFiccao, LivroNaoFiccao
 from bottle import template, redirect, request, response, Bottle, static_file
 import socketio
-
 
 class Application:
 
@@ -21,6 +20,9 @@ class Application:
         self.edited = None
         self.removed = None
         self.created= None
+        
+        self.__books = BookRecord()
+        self.__initialize_sample_books()
 
         # Initialize Bottle app
         self.app = Bottle()
@@ -40,9 +42,6 @@ class Application:
         def serve_static(filepath):
             return static_file(filepath, root='./app/static')
 
-        @self.app.route('/favicon.ico')
-        def favicon():
-            return static_file('favicon.ico', root='.app/static')
 
         @self.app.route('/pagina', method='GET')
         def pagina_getter():
@@ -99,8 +98,22 @@ class Application:
         def delete_action():
             self.delete_user()
             return self.render('portal')
+        
+        @self.app.route('/alugar/<titulo>', method='POST')
+        def marcar_livro_como_lido(titulo):
+            current_user = self.getCurrentUserBySessionId()
+            if current_user:
+                if self.__users.marcar_livro_como_lido(current_user.username, titulo):
+                    self.sio.emit('status_livro_atualizado', {
+                        'titulo': titulo,
+                        'lido': True
+                    })
+                    return "Livro marcado como lido!"
+                return "Livro já estava marcado como lido."
+            return redirect('/portal')
 
 
+    
     # método controlador de acesso às páginas:
     def render(self, page, parameter=None):
         content = self.pages.get(page, self.portal)
@@ -150,7 +163,11 @@ class Application:
         self.update_users_list()
         current_user = self.getCurrentUserBySessionId()
         if current_user:
-            return template('app/views/html/pagina', transfered=True, current_user=current_user)
+            livros = self.__books.get_all_books()  
+            return template('app/views/html/pagina', 
+                        transfered=True, 
+                        current_user=current_user,
+                        livros=livros) 
         return template('app/views/html/pagina', transfered=False)
 
     def is_authenticated(self, username):
@@ -163,7 +180,7 @@ class Application:
         session_id = self.__users.checkUser(username, password)
         if session_id:
             self.logout_user()
-            response.set_cookie('session_id', session_id, httponly=True, secure=True, max_age=3600)
+            response.set_cookie('session_id', session_id, httponly=True, secure=False, max_age=3600)
             redirect('/pagina')
         redirect('/portal')
 
@@ -203,14 +220,105 @@ class Application:
         try:
             content = message
             current_user = self.getCurrentUserBySessionId()
-            return self.__messages.book(current_user.username, content)
-        except UnicodeEncodeError as e:
-            print(f"Encoding error: {e}")
-            return "An error occurred while processing the message."
-
+            if current_user:
+                print(f"Usuário autenticado: {current_user.username}")  # Log para depuração
+                new_msg = self.__messages.book(current_user.username, content)
+                print(f"Nova mensagem salva: {new_msg.content} | Usuário: {new_msg.username}")  # Log para depuração
+                self.sio.emit('message', {'content': new_msg.content, 'username': new_msg.username}, broadcast=True)
+                return new_msg
+            else:
+                print("Usuário não autenticado.")  # Log para depuração
+                return None
+        except Exception as e:
+            print(f"Erro ao processar a mensagem: {e}")  # Log para depuração
+            return None
+        
+    def __initialize_sample_books(self):
+        self.__books.add_book(LivroFiccao(
+            "1984", 
+            "George Orwell", 
+            "/static/img/1984.jpg", 
+            "Distopia"
+        ) )
+        
+        self.__books.add_book(LivroFiccao(
+            "Crime e Castigo", 
+            "Fiodor Dostoyevisky", 
+            "/static/img/crime.jpg", 
+            "Distopia"
+        ) )
+        
+        self.__books.add_book(LivroFiccao(
+            "Dom Quixote de La Mancha", 
+            "Miguel cervantes", 
+            "/static/img/domquixote.jpg", 
+            "Distopia"
+        ) )
+        
+        self.__books.add_book(LivroFiccao(
+            "Memórias Postumas de Brás Cubas", 
+            "Machado de Assis", 
+            "/static/img/memoria.jpg", 
+            "Distopia"
+        ) )
+        
+        self.__books.add_book(LivroFiccao(
+            "A Odisseia", 
+            "Homero", 
+            "/static/img/odisseia.jpeg", 
+            "Distopia"
+        ) )
+        
+        self.__books.add_book(LivroFiccao(
+            "Pequeno Príncipe", 
+            "George Orwell", 
+            "/static/img/pequenop.jpg", 
+            "Distopia"
+        ) )
+        
+        self.__books.add_book(LivroFiccao(
+            "Divina Comédia", 
+            "Dante", 
+            "/static/img/dante.jpg", 
+            "Distopia"
+        ) )
+        
+        self.__books.add_book(LivroFiccao(
+            "Meditações", 
+            "Marcus Aurélio", 
+            "/static/img/meditacoes.jpeg", 
+            "Distopia"
+        ) )
+        
+        self.__books.add_book(LivroFiccao(
+            "A morte de Ivan Ilith", 
+            "Tolstoy", 
+            "/static/img/ivan.jpg", 
+            "Distopia"
+        ) )
+        
+        self.__books.add_book(LivroFiccao(
+            "Pequeno Príncipe", 
+            "George Orwell", 
+            "/static/img/pequenop.jpg", 
+            "Distopia"
+        ) )
+        
+        self.__books.add_book(LivroNaoFiccao(
+            "O idiota", 
+            "Fiodor Dostoievisky", 
+            "/static/img/idiota.jpg", 
+            "História"
+        ))
+        
+        
 
     # Websocket:
     def setup_websocket_events(self):
+        
+        @self.sio.event
+        def status_livro_atualizado(sid, data):
+            self.sio.emit('status_livro_atualizado', data, broadcast=True)
 
         @self.sio.event
         async def connect(sid, environ):
@@ -224,9 +332,8 @@ class Application:
         # recebimento de solicitação de cliente para atualização das mensagens
         @self.sio.event
         def message(sid, data):
-            objdata = self.newMessage(data)
-            self.sio.emit('message', {'content': objdata.content, 'username': objdata.username})
-
+            new_msg = self.newMessage(data)
+            self.sio.emit('message', {'content': new_msg.content, 'username': new_msg.username}, broadcast=True)
         # solicitação para atualização da lista de usuários conectados. Quem faz
         # esta solicitação é o próprio controlador. Ver update_users_list()
         @self.sio.event

@@ -1,4 +1,4 @@
-const socket = io('http://localhost:8080'); // Endereço do servidor Socket.IO
+const socket = io('http://localhost:8086'); // Endereço do servidor Socket.IO
 
 socket.on('connect', () => {
    console.log('Conexão estabelecida com o servidor Socket.IO');

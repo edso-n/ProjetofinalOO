@@ -1,0 +1,163 @@
+/* Estilos gerais */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f8f9fa;
+    margin: 0;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+    color: #333;
+}
+
+h1 {
+    text-align: center;
+    color: #007bff;
+    margin-bottom: 10px;
+}
+
+h4 {
+    text-align: center;
+    color: #555;
+    margin-bottom: 20px;
+}
+
+/* Container de usuários conectados */
+#usersDisplay {
+    background-color: #ffffff;
+    border-radius: 8px;
+    padding: 15px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 400px;
+    margin-bottom: 20px;
+}
+
+#usersDisplay li {
+    list-style-type: none;
+    padding: 5px 0;
+    border-bottom: 1px solid #eee;
+    color: #333;
+}
+
+#usersDisplay li:last-child {
+    border-bottom: none;
+}
+
+/* Área de entrada de mensagens */
+#messageInput {
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 16px;
+    width: 100%;
+    max-width: 400px;
+    box-sizing: border-box;
+    margin-bottom: 10px;
+}
+
+#messageInput::placeholder {
+    color: #aaa;
+}
+
+/* Botão de enviar */
+#sendButton {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    border-radius: 5px;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+    margin-bottom: 20px;
+}
+
+#sendButton:hover {
+    background-color: #0056b3;
+}
+
+/* Área de exibição de mensagens */
+#messageDisplay {
+    background-color: #ffffff;
+    border-radius: 8px;
+    padding: 15px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 600px;
+    margin-bottom: 20px;
+}
+
+#messageDisplay li {
+    list-style-type: none;
+    padding: 10px 0;
+    border-bottom: 1px solid #eee;
+    color: #333;
+}
+
+#messageDisplay li:last-child {
+    border-bottom: none;
+}
+
+/* Botão de voltar ao portal */
+form[action="/portal"] {
+    margin-top: 20px;
+}
+
+form[action="/portal"] button {
+    background-color: #6c757d;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    border-radius: 5px;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+}
+
+form[action="/portal"] button:hover {
+    background-color: #5a6268;
+}
+
+/* Responsividade */
+@media (max-width: 600px) {
+    h1 {
+        font-size: 24px;
+    }
+
+    h4 {
+        font-size: 16px;
+    }
+
+    #usersDisplay, #messageDisplay {
+        width: 90%;
+    }
+
+    #messageInput {
+        width: 90%;
+    }
+}
+
+#messageDisplay {
+    width: 100%;
+    max-width: 600px;
+    height: 300px;
+    overflow-y: auto;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 10px;
+    margin-bottom: 20px;
+    background-color: #f9f9f9;
+}
+
+#messageDisplay li {
+    list-style-type: none;
+    padding: 10px;
+    border-bottom: 1px solid #eee;
+    color: #333;
+}
+
+#messageDisplay li:last-child {
+    border-bottom: none;
+}

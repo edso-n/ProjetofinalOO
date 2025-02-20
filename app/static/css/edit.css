@@ -1,4 +1,200 @@
+/* Estilos gerais */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f8f9fa;
+    margin: 0;
+    padding: 20px;
+    min-height: 100vh;
+}
+
+h1, h3, h4 {
+    text-align: center;
+    color: #333;
+    margin: 20px 0;
+}
+
+h1 strong {
+    color: #007bff;
+}
+
+/* Container principal */
+form {
+    max-width: 500px;
+    margin: 0 auto;
+    background: white;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Campos do formulário */
+label {
+    display: block;
+    margin: 15px 0 5px;
+    font-weight: bold;
+    color: #333;
+}
+
+input[type="text"],
+input[type="password"] {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 16px;
+    box-sizing: border-box;
+}
+
+input[type="text"][readonly] {
+    background-color: #f8f9fa;
+    cursor: not-allowed;
+}
+
+/* Container de botões */
 .button-container {
-    display: flex; /* Define o contêiner como flexível */
-    gap: 10px; /* Espaçamento entre os botões */
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-top: 25px;
+}
+
+/* Botões */
+.button-container button,
+.button-container input[type="submit"] {
+    flex: 1; /* Faz os botões ocuparem o mesmo espaço */
+    min-width: 120px; /* Largura mínima para evitar botões muito pequenos */
+    padding: 12px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: all 0.3s ease;
+    text-align: center;
+}
+
+.button-container button:hover,
+.button-container input[type="submit"]:hover {
+    transform: translateY(-1px);
+}
+
+/* Estilos específicos para cada botão */
+.button-container input[type="submit"] {
+    background-color: #007bff;
+    color: white;
+}
+
+.button-container input[type="submit"]:hover {
+    background-color: #0056b3;
+}
+
+.button-container form[action="/logout"] button {
+    background-color: #6c757d;
+    color: white;
+}
+
+.button-container form[action="/logout"] button:hover {
+    background-color: #5a6268;
+}
+
+.button-container form[action="/portal"] button {
+    background-color: #28a745;
+    color: white;
+}
+
+.button-container form[action="/portal"] button:hover {
+    background-color: #218838;
+}
+
+.button-container form[action="/delete"] button {
+    background-color: #dc3545;
+    color: white;
+}
+
+.button-container form[action="/delete"] button:hover {
+    background-color: #bb2d3b;
+}
+
+/* Seção de administrador */
+#editDisplay {
+    max-width: 500px;
+    margin: 30px auto;
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+#editDisplay li {
+    list-style: none;
+    padding: 12px;
+    border-bottom: 1px solid #eee;
+    font-size: 16px;
+}
+
+#editDisplay li:last-child {
+    border-bottom: none;
+}
+
+/* Mensagem de página reservada */
+body > h1:first-child {
+    color: #dc3545;
+    margin-top: 50px;
+}
+
+/* Responsividade */
+@media (max-width: 600px) {
+    form {
+        padding: 20px;
+        margin: 0 15px;
+    }
+
+    .button-container {
+        flex-direction: column;
+    }
+
+    .button-container button,
+    .button-container input[type="submit"] {
+        width: 100%;
+        margin: 5px 0;
+    }
+}
+
+.button-container {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-top: 25px;
+}
+
+.button-container button {
+    flex: 1;
+    min-width: 120px;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: all 0.3s ease;
+    text-align: center;
+    color: white;
+    background-color: #007bff;
+}
+
+.button-container button:hover {
+    transform: translateY(-1px);
+    opacity: 0.9;
+}
+
+.button-container button[formaction="/logout"] {
+    background-color: #6c757d;
+}
+
+.button-container button[formaction="/portal"] {
+    background-color: #28a745;
+}
+
+.button-container button[formaction="/delete"] {
+    background-color: #dc3545;
 }

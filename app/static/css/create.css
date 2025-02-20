@@ -1,0 +1,53 @@
+body, h1, h4, p, img {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    background-color: #141414;
+    color:#f4f4f4;
+    padding: 20px;
+    display: flex;
+    flex-direction: column; /* Adiciona esta linha para alinhar os itens em coluna */
+    justify-content: flex-start; /* Alinha o conteúdo no início, em vez de no centro */
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+}
+
+h4 {
+    font-size: 1.2em;
+    margin-bottom: 30px;
+    color: black;
+}
+
+button, .botaologin{
+    background-color: yellow;
+    border-radius: 0.25rem;
+    padding: 0.5rem;
+    width: 200px;
+    gap: 50px;
+}
+
+input{
+    padding: 0.5rem;
+    border-radius: o.25rem;
+}
+
+.object_centered2 {
+    text-align: center;
+    background: black;
+    border-radius: 10px;
+    padding: 2rem;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    margin-bottom: 20px; /* Adiciona espaçamento entre os blocos */
+    width: 100%; /* Garante que o bloco ocupe a largura total disponível */
+    max-width: 1000px; /* Define uma largura máxima para limitar o tamanho */
+}
+.justify-text {
+    text-align: justify;
+}
+strong{color: yellow;}
